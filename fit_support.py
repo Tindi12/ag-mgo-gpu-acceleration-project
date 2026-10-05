@@ -33,7 +33,7 @@ import math
 from io import StringIO
 from ascii_colors import ASCIIColors
 from sys import argv, exit, stdout
-from typing import Tuple, Literal, List, Union
+from typing import Tuple, Literal, List, Union, Optional
 from ase.neighborlist import natural_cutoffs, NeighborList
 from ase.constraints import FixAtoms
 import warnings
@@ -94,7 +94,6 @@ def calc_vacuum(atoms) -> float:
     vacuum = cell_height + minz - maxz
 
     return vacuum, minz, maxz
-
 
 def set_vacuum(atoms, set_point: float = 15) -> Atoms:
     """
@@ -618,7 +617,7 @@ def reduce_vacuum(
     agmgo.translate(displacement=(-translate_x, -translate_y, 0))
     x_space_final, y_space_final = calculate_current_lateral_spacing(agmgo)
     agmgo.pbc = atoms.pbc
-    
+
     if verbose:
         print(f"Final lateral spacings:\t{x_space_final:.1f} A, {y_space_final:.1f} A")
     overlapping=False
@@ -1075,7 +1074,7 @@ def tem_rotate(atoms2, viewpoint: Literal["x", "y", "z", "x-y"] = "z") -> Atoms:
         atoms.rotate("x", -90, rotate_cell=True)
     elif viewpoint == "y":
         warnings.warn(
-            f"""Why on earth would you want to 
+            f"""Why on earth would you want to
         have the {viewpoint} viewpoint??"""
         )
         atoms.rotate("y", -90, rotate_cell=True)
